@@ -3,7 +3,6 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 use Test::More;
-use feature 'state';
 
 my ($cls_name, $count, $packet) = qw/
     Netflow::Parser
