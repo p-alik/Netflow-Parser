@@ -1,6 +1,6 @@
 Netflow-Parser
 
-just a Netflow-Parser
+A Netflow Parser supports only Netflow V9. The callback will be applied to each flow during packet parsing.
 
 INSTALLATION
 
@@ -13,29 +13,11 @@ To install this module, run the following commands:
 
 SUPPORT AND DOCUMENTATION
 
-After installing, you can find documentation for this module with the
-perldoc command.
-
     perldoc Netflow::Parser
-
-You can also look for information at:
-
-    RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Netflow-Parser
-
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Netflow-Parser
-
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Netflow-Parser
-
-    Search CPAN
-        http://search.cpan.org/dist/Netflow-Parser/
-
 
 LICENSE AND COPYRIGHT
 
-Copyright (C) 2014 IP Engineering
+Copyright 2014 by Alexei Pastuchov E<lt>palik at cpan.orgE<gt>.
 
-This program is released under the following license: TC ownership
-
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
