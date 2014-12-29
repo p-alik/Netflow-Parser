@@ -125,7 +125,7 @@ return {
 
 sub parse {
     my ($self, $packet) = @_;
-    my ($version) = unpack("n", $packet);
+    #my ($version) = unpack("n", $packet);
     return $self->_parse_v9($packet);
 }
 
@@ -306,8 +306,7 @@ sub _parse_flowset_v9 {
 
         $cb && $cb->($flow);
 
-        #        push @flows, $flow;
-        push @flows, $cb ? $cb->($flow) : $flow;
+        push @flows, $flow;
     } ## end while (($ofs + $tmpl_length...))
 
     return @flows;
