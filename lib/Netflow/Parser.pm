@@ -17,7 +17,7 @@ Netflow::Parser
 
 =head1 DESCRIPTION
 
-A Netflow Parser supports only Netflow V9. The callback will be applied to each flow during packet parsing.
+Netflow Parser supports currently only Netflow V9.
 
 =head1 VERSION
 
@@ -25,7 +25,7 @@ Version 0.01
 
 =cut
 
-$Netflow::Parser::VERSION = '0.01';
+$Netflow::Parser::VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -37,15 +37,22 @@ $Netflow::Parser::VERSION = '0.01';
         );
 
     while(my $packet = take_packet_from_socket()) {
-        my $content = $nfp->parse($packet);
+        my $pp = $nfp->parse($packet);
 
-        $content->{unparsed_flowsets} && persist_for_later($content->{unparsed_flowsets});
+        # version, count, sysuptime, unix_secs, seqno and source_id
+        $pp->header;
+
+        # parsed flowsets
+        $pp->parsed;
+
+        # unparsed flowsets 
+        $pp->unparsed && persist_for_later($pp->unparsed);
     }
 
+    # persist templates if you want
     my @templates = $nfp->templates;
     foreach (@templates) {
         my ($id, $content) = each(%{$_});
-        $nfp->template($id); # persist template if you want
     }
 
 =head1 SUBROUTINES/METHODS
@@ -66,7 +73,7 @@ C<templates_data>
 
 C<flow_cb>
 
-callback method will be applied to each flow
+callback method will be applied to each parsed flow
 
 =item
 
@@ -125,9 +132,10 @@ return {
 
 sub parse {
     my ($self, $packet) = @_;
+
     #my ($version) = unpack("n", $packet);
     return $self->_parse_v9($packet);
-}
+} ## end sub parse
 
 =head2 templates()
 
@@ -193,20 +201,17 @@ sub _parse_v9 {
 
     eval { $version == 9 } || Carp::croak("the version of packet is not v9");
 
-    my $content = {
-        'templates'         => [],
-        'flows'             => [],
-        'unparsed_flowsets' => [],
-        'flowsets'          => scalar(@flowsets),
-        'header'            => {
+    my $pp = Netflow::Parser::Packet->new(
+        'flowsets' => scalar(@flowsets),
+        'header'   => {
             'version'   => $version,
             'count'     => $count,
             'sysuptime' => $sysuptime,
             'unix_secs' => $unix_secs,
             'seqno'     => $seqno,
             'source_id' => $source_id,
-        },
-    };
+        }
+    );
 
     scalar(@flowsets) > length($packet)
         && warn sprintf("extimated %d flowsets > paket length %d",
@@ -220,11 +225,10 @@ sub _parse_v9 {
             if ($flowset) {
                 my @tmpl = $self->parse_template_v9($flowset);
                 if (@tmpl) {
-                    push @{ $content->{'templates'} }, @tmpl;
+                    $pp->add_template(@tmpl);
                 }
                 else {
-                    push @{ $content->{'unparsed_flowsets'} },
-                        { $flowset_id => $flowset };
+                    $pp->add_unparsed({ $flowset_id => $flowset });
                 }
             } ## end if ($flowset)
         } ## end if ($flowset_id == 0)
@@ -233,16 +237,15 @@ sub _parse_v9 {
             # 1 - Options Template FlowSet
             $self->{'verbose'} && $self->_debug("do nothing for flowset id 1");
 
-            push @{ $content->{'unparsed_flowsets'} }, $flowset;
+            $pp->add_unparsed({ $flowset_id => $flowset });
         } ## end elsif ($flowset_id == 1)
         elsif ($flowset_id > 255) {
             my @flows = $self->_parse_flowset_v9($flowset_id, $flowset);
             if (scalar(@flows)) {
-                push @{ $content->{'flows'} }, { $flowset_id => [@flows] };
+                $pp->add_parsed({ $flowset_id => [@flows] });
             }
             else {
-                push @{ $content->{'unparsed_flowsets'} },
-                    { $flowset_id => $flowset };
+                $pp->add_unparsed({ $flowset_id => $flowset });
             }
         } ## end elsif ($flowset_id > 255)
         else {
@@ -251,7 +254,8 @@ sub _parse_v9 {
                 && $self->_debug("Unknown FlowSet ID $flowset_id found");
         }
     } ## end for (my $i = 0; $i < scalar...)
-    return $content;
+
+    return $pp;
 } ## end sub _parse_v9
 
 #=head2 _parse_flowset_v9 ($flowset_id, $flowset)
@@ -386,3 +390,104 @@ it under the same terms as Perl itself.
 =cut
 
 1;    # End of Netflow::Parser
+
+{
+
+    package Netflow::Parser::Packet;
+    use strict;
+    use warnings;
+
+    use fields qw/
+        flowsets
+        header
+        templates
+        parsed
+        unparsed
+        /;
+
+    {
+        no strict 'refs';
+        foreach my $k (keys %{'Netflow::Parser::Packet::FIELDS'}) {
+            *{$k} = sub { shift->{$k} }
+        }
+    };
+
+    sub new {
+        my Netflow::Parser::Packet $self = shift;
+        my (%opts) = @_;
+        unless (ref $self) {
+            $self = fields::new($self);
+        }
+
+        $self->{header}
+            = Netflow::Parser::Packet::Header->new(%{ delete $opts{header} });
+
+        $self->{flowsets} = delete $opts{flowsets};
+
+        foreach (qw/templates parsed unparsed/) {
+            $self->{$_} = [];
+        }
+
+        return $self;
+    } ## end sub new
+
+    sub add_template {
+        my ($self, $tmpl) = @_;
+        push @{ $self->{template} }, $tmpl;
+    }
+
+    sub add_parsed {
+        my ($self, $hr) = @_;
+        push @{ $self->{parsed} }, $hr;
+    }
+
+    sub add_unparsed {
+        my ($self, $hr) = @_;
+        push @{ $self->{unparsed} }, $hr;
+    }
+
+}
+
+1;    # End of Netflow::Parser::Packet
+
+{
+
+    package Netflow::Parser::Packet::Header;
+    use strict;
+    use warnings;
+
+    use fields qw/
+        version
+        count
+        sysuptime
+        unix_secs
+        seqno
+        source_id
+        /;
+
+    my @fields;
+    {
+        no strict 'refs';
+        @fields = keys %{'Netflow::Parser::Packet::Header::FIELDS'};
+        foreach (@fields) {
+            *{$_} = sub { shift->{$_} }
+        }
+    };
+
+    sub new {
+        my Netflow::Parser::Packet::Header $self = shift;
+        my (%opts) = @_;
+        unless (ref $self) {
+            $self = fields::new($self);
+        }
+
+        foreach (@fields) {
+            $opts{$_} || next;
+            $self->{$_} = delete $opts{$_};
+        }
+
+        return $self;
+    } ## end sub new
+}
+
+1;    # End of Netflow::Parser::Packet::Header
