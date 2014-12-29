@@ -32,9 +32,11 @@ my $cls = new_ok(
     ]
 );
 
-ok(my @x = $cls->parse(pack('H*', $packet)), 'parse');
+ok(my $p = $cls->parse(pack('H*', $packet)), 'parse');
+note explain $p;
+isa_ok($p, 'Netflow::Parser::Packet');
+isa_ok($p->header, 'Netflow::Parser::Packet::Header');
 
-#note explain @x;
 
 my @templates = $cls->templates;
 is(scalar(@templates), 1, 'templates');
