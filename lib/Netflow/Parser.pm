@@ -433,7 +433,7 @@ it under the same terms as Perl itself.
 
     sub add_template {
         my ($self, $tmpl) = @_;
-        push @{ $self->{template} }, $tmpl;
+        push @{ $self->{templates} }, $tmpl;
     }
 
     sub add_parsed {
