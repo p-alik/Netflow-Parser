@@ -214,7 +214,7 @@ sub _parse_v9 {
     );
 
     scalar(@flowsets) > length($packet)
-        && warn sprintf("extimated %d flowsets > paket length %d",
+        && warn sprintf("estimated %d flowsets > paket length %d",
         scalar(@flowsets), length($packet));
     for (my $i = 0; $i < scalar(@flowsets); $i += 2) {
         my $flowset_id = $flowsets[$i];
