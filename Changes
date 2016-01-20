@@ -1,5 +1,10 @@
 Revision history for Netflow-Parser
 
+0.3     2016.01.20
+        add briefly ABSTRACT description
+        bug parse_template_v9 fixed
+        bug in add_template fixed
+
 0.02    2014.12.29
         bug fixing _parse_flowset_v9
         refactoring: parse method returns a Netflow::Parser::Packet object
