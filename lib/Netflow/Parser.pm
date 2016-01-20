@@ -223,7 +223,7 @@ sub _parse_v9 {
         my $flowset = substr($flowsets[$i + 1], 4);
         if ($flowset_id == 0) {
             if ($flowset) {
-                my @tmpl = $self->parse_template_v9($flowset);
+                my @tmpl = $self->_parse_template_v9($flowset);
                 if (@tmpl) {
                     $pp->add_template(@tmpl);
                 }
