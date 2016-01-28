@@ -1,6 +1,5 @@
 package Netflow::Parser;
 
-use 5.006;
 use strict;
 use warnings;
 
