@@ -1,5 +1,8 @@
 Revision history for Netflow-Parser
 
+0.4     2016.01.28
+        min perl 5.8 required to fit unpack template grouping
+
 0.3     2016.01.20
         add briefly ABSTRACT description
         bug parse_template_v9 fixed
