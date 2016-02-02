@@ -1,5 +1,8 @@
 Revision history for Netflow-Parser
 
+0.5     2016.02.02
+        MIN_PERL_VERSION requires ExtUtils::MakeMaker at least 6.48
+
 0.4     2016.01.28
         min perl 5.8 required to fit unpack template grouping
 
