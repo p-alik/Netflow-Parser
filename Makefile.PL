@@ -1,3 +1,4 @@
+use 5.008;
 use strict;
 use warnings FATAL => 'all';
 use ExtUtils::MakeMaker;
@@ -9,8 +10,8 @@ WriteMakefile(
     ABSTRACT           => 'Netflow parser (actually v9 only)',
     LICENSE            => 'perl',
     PL_FILES           => {},
-    MIN_PERL_VERSION   => '5.8.0',
-    CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => 0, },
+    MIN_PERL_VERSION   => '5.008',
+    CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => '6.48', },
     BUILD_REQUIRES     => { 'Test::More' => 0, },
     PREREQ_PM          => {
         'fields' => 0,
