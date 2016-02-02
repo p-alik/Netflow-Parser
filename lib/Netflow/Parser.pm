@@ -20,11 +20,11 @@ Netflow Parser supports currently only Netflow V9.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
-$Netflow::Parser::VERSION = '0.04';
+$Netflow::Parser::VERSION = '0.05';
 
 =head1 SYNOPSIS
 
