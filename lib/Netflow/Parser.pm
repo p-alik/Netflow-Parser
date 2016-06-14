@@ -12,19 +12,19 @@ use Carp;
 
 =head1 NAME
 
-Netflow::Parser
+Netflow::Parser - NetFlow datagram parser
 
 =head1 DESCRIPTION
 
-Netflow Parser supports currently only Netflow V9.
+Netflow Parser supports currently L<NetFlow|https://en.wikipedia.org/wiki/NetFlow> V9 only
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06.001
 
 =cut
 
-$Netflow::Parser::VERSION = '0.05';
+$Netflow::Parser::VERSION = '0.06.001';
 
 =head1 SYNOPSIS
 
@@ -371,9 +371,24 @@ sub _debug {
     print join(' ', "LINE[$line]:", @msg, $/);
 }
 
+=head1 EXAMPLE - L<Netflow Collector|https://metacpan.org/pod/Netflow::Collector> 
+
+my $p = Netflow::Parser->new(
+    verbose      => 1,
+    flow_cb      => sub {
+        my ($hr) = @_;
+        ...
+    }
+
+Netflow::Collector->new(
+    port => $port,
+    dispatch => sub {
+        $p->parse(@_) 
+    })->run();
+
 =head1 AUTHOR
 
-Alexei Pastuchov E<lt>palik at cpan.orgE<gt>.
+Alexei Pastuchov E<lt>palik at cpan dot orgE<gt>.
 
 =head1 REPOSITORY
 
@@ -381,7 +396,7 @@ L<https://github.com/p-alik/Netflow-Parser>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2014 by Alexei Pastuchov E<lt>palik at cpan.orgE<gt>.
+Copyright 2014-2016 by Alexei Pastuchov E<lt>palik at cpan dot orgE<gt>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
