@@ -1,8 +1,7 @@
 Netflow-Parser
 ==============
 
-
-[![CPAN version](https://badge.fury.io/pl/Gearman.png)](https://badge.fury.io/pl/Netflow-Parser)
+[![CPAN version](https://badge.fury.io/pl/Netflow-Parser.png)](https://badge.fury.io/pl/Netflow-Parser)
 [![Build Status](https://travis-ci.org/p-alik/perl-Gearman.png)](https://travis-ci.org/p-alik/Netflow-Parser)
 [![Coverage Status](https://coveralls.io/repos/github/p-alik/Netflow-Parser/badge.png)](https://coveralls.io/github/p-alik/Netflow-Parser)
 
