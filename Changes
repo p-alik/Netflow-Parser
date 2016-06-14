@@ -1,5 +1,9 @@
 Revision history for Netflow-Parser
 
+0.6.001 2016.06.14
+        update pod description
+        test version
+
 0.5     2016.02.02
         MIN_PERL_VERSION requires ExtUtils::MakeMaker at least 6.48
 
