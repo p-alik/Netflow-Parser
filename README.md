@@ -11,9 +11,7 @@ Netflow::Parser
 * supports only _[Netflow](https://en.wikipedia.org/wiki/NetFlow) V9_
 * parses NetFlow datagrams by applying known templates and execute a callback method for each flow.
 
-
-EXAMPLE shows simple Netflow collector implementation by using [Netflow::Collector](https://github.com/p-alik/Netflow-Collector) 
-=======
+**EXAMPLE** shows simple [Netflow::Collector](https://github.com/p-alik/Netflow-Collector) implementation 
 
 ```perl
 
