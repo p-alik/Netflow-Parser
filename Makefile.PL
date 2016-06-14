@@ -5,9 +5,9 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME               => 'Netflow::Parser',
-    AUTHOR             => q{Alexei Pastuchov E<lt>palik at cpan.orgE<gt>.},
+    AUTHOR             => q{Alexei Pastuchov E<lt>palik at cpan dot orgE<gt>.},
     VERSION_FROM       => 'lib/Netflow/Parser.pm',
-    ABSTRACT           => 'Netflow parser (actually v9 only)',
+    ABSTRACT           => 'Netflow parser (V9 only)',
     LICENSE            => 'perl',
     PL_FILES           => {},
     MIN_PERL_VERSION   => '5.008',
