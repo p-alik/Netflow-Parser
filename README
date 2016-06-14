@@ -1,6 +1,6 @@
 Netflow-Parser
 
-A Netflow Parser supports only Netflow V9. The callback will be applied to each flow during packet parsing.
+A Netflow Parser supports only Netflow V9. The callback will be applied to each parsed flow
 
 INSTALLATION
 
@@ -17,7 +17,7 @@ SUPPORT AND DOCUMENTATION
 
 LICENSE AND COPYRIGHT
 
-Copyright 2014 by Alexei Pastuchov E<lt>palik at cpan.orgE<gt>.
+Copyright 2014-2016 by Alexei Pastuchov E<lt>palik at cpan dot orgE<gt>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
