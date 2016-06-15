@@ -1,5 +1,8 @@
 Revision history for Netflow-Parser
 
+0.6.002 2016.06.15
+        add META_MERGE block into Makefile.PL
+
 0.6.001 2016.06.14
         update pod description
         test version

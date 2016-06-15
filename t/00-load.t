@@ -9,4 +9,4 @@ use_ok("Netflow::Parser");
 
 diag("Testing Netflow::Parser $Netflow::Parser::VERSION, Perl $], $^X");
 
-is($Netflow::Parser::VERSION, "0.06.001", "version");
+is($Netflow::Parser::VERSION, "0.06.002", "version");

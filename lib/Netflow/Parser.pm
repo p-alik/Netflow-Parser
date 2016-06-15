@@ -20,11 +20,11 @@ Netflow Parser supports currently L<NetFlow|https://en.wikipedia.org/wiki/NetFlo
 
 =head1 VERSION
 
-Version 0.06.001
+Version 0.06.002
 
 =cut
 
-$Netflow::Parser::VERSION = '0.06.001';
+$Netflow::Parser::VERSION = '0.06.002';
 
 =head1 SYNOPSIS
 
