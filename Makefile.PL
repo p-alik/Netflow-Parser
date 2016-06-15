@@ -12,6 +12,20 @@ WriteMakefile(
     PL_FILES           => {},
     MIN_PERL_VERSION   => '5.008',
     CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => '6.48', },
+    META_MERGE         => {
+        'meta-spec' => { version => 2 },
+        resources   => {
+            homepage   => 'https://github.com/p-alik/Netflow-Parser',
+            repository => {
+                type => 'git',
+                web  => 'https://github.com/p-alik/Netflow-Parser',
+                url  => 'git@github.com:p-alik/Netflow-Parser.git',
+            },
+            bugtracker => {
+                web => 'https://github.com/p-alik/Netflow-Parser/issues',
+            },
+        },
+    },
     BUILD_REQUIRES     => { 'Test::More' => 0, },
     PREREQ_PM          => {
         'fields' => 0,
